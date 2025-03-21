@@ -8,7 +8,7 @@ const router = express.Router();
 const connection = require('../../config/database');
 
 // import validator
-const { body, validationResult } = require('express-validator');
+const { body, validatiionResult } = require('express-validator');
 
 // import bcryptjs
 const bcrypt = require('bcryptjs');
