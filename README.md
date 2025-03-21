@@ -2,6 +2,8 @@
 
 Backend Express JS menggunakan MYSQL dan JWT
 
+Setiap Endpoint wajib memasukkan Authorization di headers
+
 ## API Endpoint Login
 
 #### Login
