@@ -72,3 +72,29 @@ Mengupdate data user
 ```
 
 Menghapus data user
+
+## API Endpoint Mahasiswa
+
+### Menampilkan semua data Mahasiswa
+
+```http
+  GET /api/careers/
+```
+
+### Menampilkan data Mahasiswa berdasarkan nama
+
+```http
+  GET /api/careers/nama/:nama
+```
+
+### Menampilkan data Mahasiswa berdasarkan nim
+
+```http
+  GET /api/careers/nim/:nim
+```
+
+### Menampilkan data Mahasiswa berdasarkan ymd
+
+```http
+  GET /api/careers/ymd/:ymd
+```
