@@ -44,6 +44,28 @@ const postValidation = [
         .isLength({ min: 3 }).withMessage('Body must be at least 3 characters long')
 ];
 
+// validasi users
+const userValidation = [
+    body('name')
+        .notEmpty().withMessage('Name is required')
+        .isLength({ min: 3 }).withMessage('Name must be at least 3 characters long'),
+    body('email')
+        .notEmpty().withMessage('Email is required')
+        .isEmail().withMessage('Email is invalid')
+        .custom(async (value) => {
+            if(!value) {
+                throw new Error('Email is required');
+            }
+            const user = connection.query('SELECT * FROM users WHERE email = ?', [value]);
+            if (user) {
+                throw new Error('Email already exists');
+            }
+            return true;
+        }),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+    // body('confirmPassword').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
+];
+
 // handle validation
 const handleValidation = (req, res, next) => {
     const errors = validationResult(req);
@@ -62,5 +84,6 @@ module.exports = {
     loginValidation,
     registerValidation,
     postValidation,
-    handleValidation
+    userValidation,
+    handleValidation,
 }

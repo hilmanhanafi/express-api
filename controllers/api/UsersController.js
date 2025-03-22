@@ -50,6 +50,15 @@ const findUser = (req, res) => {
 
 // createUser with hash password
 const createUser = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({
+            status: false,
+            message : 'Validation Error',
+            errors : errors.array()
+        });
+    }
+
     // Hash password dengan await
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     try {
@@ -89,6 +98,15 @@ const createUser = async (req, res) => {
 
 // updateUser
 const updateUser = async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({
+            status: false,
+            message : 'Validation Error',
+            errors : errors.array()
+        });
+    }
         // Hash password dengan await
         const hashPassword = await bcrypt.hash(req.body.password, 10);
         try {

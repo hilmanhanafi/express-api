@@ -11,7 +11,7 @@ const upload = require('../config/multer');
 const authMiddleware = require('../middleware/authMiddleware');
 
 // import validation from folder validation
-const { loginValidation, registerValidation, postValidation, handleValidation } = require('../validation');
+const { loginValidation, registerValidation, postValidation, userValidation, handleValidation } = require('../validation');
 
 // import controller login
 const loginController = require('../controllers/api/LoginController');
@@ -58,8 +58,8 @@ router.get('/careers/ymd/:ymd', authMiddleware, careerController.getByYMD);
 // define route users
 router.get('/users', authMiddleware, usersController.getAllUsers);
 router.get('/users/:id', authMiddleware, usersController.findUser);
-router.post('/users/store', authMiddleware, usersController.createUser);
-router.put('/users/:id', authMiddleware, usersController.updateUser);
+router.post('/users/store', authMiddleware, userValidation, usersController.createUser);
+router.put('/users/:id', authMiddleware, userValidation ,usersController.updateUser);
 router.delete('/users/:id', authMiddleware, usersController.deleteUser);
 
 
