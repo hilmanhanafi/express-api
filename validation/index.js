@@ -49,18 +49,24 @@ const userValidation = [
     body('name')
         .notEmpty().withMessage('Name is required')
         .isLength({ min: 3 }).withMessage('Name must be at least 3 characters long'),
-    body('email')
+        body('email')
         .notEmpty().withMessage('Email is required')
         .isEmail().withMessage('Email is invalid')
-        .custom(async (value) => {
-            if(!value) {
-                throw new Error('Email is required');
-            }
-            const user = connection.query('SELECT * FROM users WHERE email = ?', [value]);
-            if (user) {
-                throw new Error('Email already exists');
-            }
-            return true;
+        .custom((value) => {
+          return new Promise((resolve, reject) => {
+            connection.query('SELECT * FROM users WHERE email = ?', [value], (err, results) => {
+              if (err) {
+                console.error('Query error:', err);
+                return reject(new Error('Database error'));
+              }
+      
+              if (results.length > 0) {
+                return reject(new Error('Email already exists'));
+              }
+      
+              return resolve(true);
+            });
+          });
         }),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
     // body('confirmPassword').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
